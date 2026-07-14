@@ -14,9 +14,10 @@ generalist resale platforms and up to 15% on a single side for some official spo
   (`src/app/api/orders/route.ts`), not sent straight to the seller. Funds only move to the seller's
   Stripe Connect Express account via an explicit `Transfer` once an escrow condition is met — either the
   buyer confirms the ticket was valid (`/api/orders/[id]/confirm`) or a post-event holding window elapses
-  with no open refund (`/api/orders/[id]/release`, meant to be triggered by a cron job). This is the
-  Stripe Connect "separate charges and transfers" pattern, and it's what makes real fund retention (and a
-  buyer guarantee) possible — a "destination charge" would pay the seller immediately and defeat the purpose.
+  with no open refund — released automatically by an hourly cron job (`/api/cron/release-escrow`, scheduled
+  in `vercel.json`). This is the Stripe Connect "separate charges and transfers" pattern, and it's what makes
+  real fund retention (and a buyer guarantee) possible — a "destination charge" would pay the seller
+  immediately and defeat the purpose.
 - **All-inclusive pricing.** `src/lib/fees.ts` is the single source of truth for the 7%/7% fee math, used by
   both the API and the UI so the price shown while browsing is exactly what gets charged at checkout.
 - **Duplicate ticket detection.** Every uploaded ticket file is hashed (SHA-256) on upload
@@ -55,6 +56,24 @@ stripe listen --forward-to localhost:3000/api/webhooks/stripe
 
 Copy the printed webhook signing secret into `STRIPE_WEBHOOK_SECRET` in `.env`.
 
+### Escrow release cron
+
+`vercel.json` schedules `GET /api/cron/release-escrow` hourly. It finds every order whose holding window
+(`escrowReleaseAt`) has passed with no open refund request and transfers the seller's payout for each one —
+failures on individual orders (e.g. a restricted Connect account) are caught and reported per-order instead
+of blocking the rest of the batch.
+
+- Set `CRON_SECRET` in your Vercel project's environment variables (same value as `.env`). Vercel
+  automatically sends it as `Authorization: Bearer <CRON_SECRET>` when it invokes scheduled cron routes,
+  which is what authenticates the request — no extra wiring needed once the env var exists.
+- **Vercel Hobby plan cron jobs run at most once a day.** If you're on Hobby, change the schedule in
+  `vercel.json` to something like `"0 3 * * *"` (once daily) — Pro plans support the hourly `"0 * * * *"`
+  schedule checked in here.
+- Not deploying to Vercel? Any scheduler that can make an authenticated HTTP GET works — point it at
+  `/api/cron/release-escrow` with an `Authorization: Bearer <CRON_SECRET>` header.
+- To release a single specific order early (e.g. support/ops override) instead of waiting for the batch,
+  `POST /api/orders/[id]/release` with the same bearer token.
+
 ## What's built (MVP, per the original spec's priority order)
 
 1. ✅ Buyer/seller auth (email + password, Auth.js v5, JWT sessions)
@@ -84,8 +103,6 @@ not legal advice and must be reviewed before publishing.
 
 ## Known gaps / next steps
 
-- The automatic escrow release (`/api/orders/[id]/release`) needs a scheduler (Vercel Cron or similar)
-  hitting it once per order's `escrowReleaseAt`; nothing calls it automatically yet.
 - Ticket file storage (`src/lib/storage.ts`) writes to local disk for development. Swap for S3/Cloudflare R2
   with private ACLs before deploying.
 - No automated test suite yet (manual + Playwright smoke-tested during development).

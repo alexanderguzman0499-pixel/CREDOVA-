@@ -2,6 +2,21 @@ import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
 
 /**
+ * Orders whose holding window has elapsed with no open refund request —
+ * i.e. ready for the automatic escrow release cron to pay the seller.
+ */
+export function findDueEscrowOrders() {
+  return prisma.order.findMany({
+    where: {
+      status: { in: ["PAID_ESCROW", "DELIVERED"] },
+      escrowReleaseAt: { lte: new Date() },
+      refundRequests: { none: { status: { in: ["REQUESTED", "APPROVED"] } } },
+    },
+    select: { id: true },
+  });
+}
+
+/**
  * Releases escrowed funds to the seller's connected account and marks the
  * order complete. Called either when the buyer explicitly confirms the
  * ticket was valid, or automatically once the event date has passed with

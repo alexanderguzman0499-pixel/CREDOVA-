@@ -1,20 +1,19 @@
 import { NextResponse } from "next/server";
 
+import { isAuthorizedCronRequest } from "@/lib/cronAuth";
 import { releaseEscrowToSeller } from "@/lib/escrow";
 import { prisma } from "@/lib/prisma";
 
 /**
- * Automatic escrow release once the holding window has elapsed with no
- * open refund request. Intended to be called by a scheduled job (e.g.
- * Vercel Cron hitting this per due order) rather than end users directly —
- * protect this route with a shared cron secret in production.
+ * Manual/ops trigger to release a single order's escrow early — the
+ * scheduled bulk release is /api/cron/release-escrow. Protected by the same
+ * CRON_SECRET bearer token so it isn't exposed to end users.
  */
 export async function POST(
   request: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  const cronSecret = request.headers.get("x-cron-secret");
-  if (process.env.CRON_SECRET && cronSecret !== process.env.CRON_SECRET) {
+  if (!isAuthorizedCronRequest(request)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
