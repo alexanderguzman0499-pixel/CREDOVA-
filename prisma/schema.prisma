@@ -1,0 +1,222 @@
+// Prisma schema for the ticket resale marketplace.
+// docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------- Auth (NextAuth/Auth.js) ----------
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  passwordHash  String?
+  identityVerified Boolean @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts Account[]
+  sessions Session[]
+
+  listings       Listing[]       @relation("SellerListings")
+  orders         Order[]         @relation("BuyerOrders")
+  stripeConnect  StripeConnectAccount?
+
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+// ---------- Stripe Connect (seller payouts / escrow) ----------
+
+model StripeConnectAccount {
+  id               String   @id @default(cuid())
+  userId           String   @unique
+  stripeAccountId  String   @unique
+  chargesEnabled   Boolean  @default(false)
+  payoutsEnabled   Boolean  @default(false)
+  detailsSubmitted Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("stripe_connect_accounts")
+}
+
+// ---------- Events & Listings ----------
+
+enum EventCategory {
+  CONCERT
+  SPORTS
+  THEATER
+  OTHER
+}
+
+model Event {
+  id        String         @id @default(cuid())
+  name      String
+  category  EventCategory
+  venue     String
+  city      String
+  country   String
+  eventDate DateTime
+  imageUrl  String?
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  listings Listing[]
+
+  @@index([city, eventDate])
+  @@index([category])
+}
+
+enum ListingStatus {
+  ACTIVE
+  PENDING_SALE
+  SOLD
+  REMOVED
+  FLAGGED_DUPLICATE
+}
+
+model Listing {
+  id             String        @id @default(cuid())
+  sellerId       String
+  eventId        String
+  title          String
+  section        String?
+  row             String?
+  quantity       Int           @default(1)
+  pricePerTicketCents Int
+  currency       String        @default("usd")
+  fileKey        String        // storage key of uploaded ticket file (PDF/screenshot)
+  fileHash       String        // sha-256 of the uploaded file, used for duplicate detection
+  status         ListingStatus @default(ACTIVE)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  seller User    @relation("SellerListings", fields: [sellerId], references: [id], onDelete: Cascade)
+  event  Event   @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  orders Order[]
+
+  @@unique([fileHash], map: "listings_file_hash_unique")
+  @@index([eventId, status])
+  @@index([sellerId])
+}
+
+// ---------- Orders (escrow) ----------
+
+enum OrderStatus {
+  PENDING_PAYMENT
+  PAID_ESCROW
+  CONFIRMED
+  DELIVERED
+  COMPLETED
+  REFUND_REQUESTED
+  REFUNDED
+  CANCELLED
+}
+
+model Order {
+  id                    String      @id @default(cuid())
+  listingId             String
+  buyerId               String
+  quantity              Int         @default(1)
+  unitPriceCents        Int
+  sellerFeeCents        Int
+  buyerFeeCents         Int
+  totalChargedCents     Int
+  currency              String      @default("usd")
+  stripePaymentIntentId String?     @unique
+  status                OrderStatus @default(PENDING_PAYMENT)
+  escrowReleaseAt       DateTime?
+  deliveredAt           DateTime?
+  confirmedAt           DateTime?
+  createdAt             DateTime    @default(now())
+  updatedAt             DateTime    @updatedAt
+
+  listing        Listing         @relation(fields: [listingId], references: [id])
+  buyer          User            @relation("BuyerOrders", fields: [buyerId], references: [id])
+  refundRequests RefundRequest[]
+
+  @@index([buyerId])
+  @@index([listingId])
+}
+
+// ---------- Buyer guarantee / refunds ----------
+
+enum RefundReason {
+  INVALID_TICKET
+  EVENT_CANCELLED
+  SELLER_NO_SHOW
+  BUYER_REQUEST
+  OTHER
+}
+
+enum RefundStatus {
+  REQUESTED
+  APPROVED
+  PROCESSED
+  DENIED
+}
+
+model RefundRequest {
+  id          String       @id @default(cuid())
+  orderId     String
+  reason      RefundReason
+  status      RefundStatus @default(REQUESTED)
+  notes       String?
+  requestedAt DateTime     @default(now())
+  resolvedAt  DateTime?
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+}
