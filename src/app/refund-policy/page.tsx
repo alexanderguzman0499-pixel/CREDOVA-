@@ -1,4 +1,4 @@
-export const metadata = { title: "Garantía y reembolsos — GlobalTix" };
+export const metadata = { title: "Garantía y reembolsos — Global Ticket Resale" };
 
 export default function RefundPolicyPage() {
   return (

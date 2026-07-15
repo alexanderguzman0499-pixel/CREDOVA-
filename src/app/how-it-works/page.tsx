@@ -1,4 +1,4 @@
-export const metadata = { title: "Cómo funciona — GlobalTix" };
+export const metadata = { title: "Cómo funciona — Global Ticket Resale" };
 
 const steps = [
   {

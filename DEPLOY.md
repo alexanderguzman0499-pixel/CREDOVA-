@@ -1,4 +1,4 @@
-# Deploy checklist — GlobalTix on Vercel
+# Deploy checklist — Global Ticket Resale on Vercel
 
 This repo could not be deployed directly from the agent session (outbound access to
 `api.vercel.com` is blocked by this environment's network policy — see the conversation

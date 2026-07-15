@@ -1,4 +1,4 @@
-export const metadata = { title: "Términos de servicio — GlobalTix" };
+export const metadata = { title: "Términos de servicio — Global Ticket Resale" };
 
 export default function TermsPage() {
   return (
@@ -11,10 +11,10 @@ export default function TermsPage() {
 
       <div className="prose prose-slate mt-8 max-w-none space-y-6 dark:prose-invert">
         <section>
-          <h2 className="text-lg font-semibold">1. Qué es GlobalTix</h2>
+          <h2 className="text-lg font-semibold">1. Qué es Global Ticket Resale</h2>
           <p>
-            GlobalTix es un mercado (marketplace) que conecta a compradores y vendedores de boletos de eventos.
-            GlobalTix no es el organizador del evento, no emite los boletos y no garantiza el ingreso al evento más
+            Global Ticket Resale es un mercado (marketplace) que conecta a compradores y vendedores de boletos de eventos.
+            Global Ticket Resale no es el organizador del evento, no emite los boletos y no garantiza el ingreso al evento más
             allá de lo descrito en nuestra Garantía de Reembolso.
           </p>
         </section>
@@ -34,7 +34,7 @@ export default function TermsPage() {
             la jurisdicción del evento. Adicionalmente, algunos emisores de boletos (por ejemplo, organizadores
             deportivos o de conciertos) incluyen cláusulas en sus propios términos de venta que restringen o prohíben
             la reventa fuera de sus canales oficiales; dicha restricción es de naturaleza contractual entre el
-            comprador original y el emisor, y GlobalTix no es parte de esa relación, pero recomienda a los
+            comprador original y el emisor, y Global Ticket Resale no es parte de esa relación, pero recomienda a los
             vendedores revisar los términos de su boleto antes de publicarlo.
           </p>
         </section>
@@ -43,15 +43,15 @@ export default function TermsPage() {
           <p>
             Los pagos de los compradores se procesan a través de Stripe y se retienen por la plataforma hasta que se
             cumple una condición de liberación (confirmación del comprador o vencimiento de la ventana de retención
-            posterior al evento). GlobalTix no transmite fondos directamente a cuentas bancarias propias del
+            posterior al evento). Global Ticket Resale no transmite fondos directamente a cuentas bancarias propias del
             negocio antes de la liberación.
           </p>
         </section>
         <section>
           <h2 className="text-lg font-semibold">5. Boletos fraudulentos o duplicados</h2>
           <p>
-            GlobalTix aplica verificación automática de duplicados (hash del archivo/código de barras) para reducir
-            el riesgo de que un mismo boleto se venda más de una vez. Aun así, GlobalTix no puede garantizar de forma
+            Global Ticket Resale aplica verificación automática de duplicados (hash del archivo/código de barras) para reducir
+            el riesgo de que un mismo boleto se venda más de una vez. Aun así, Global Ticket Resale no puede garantizar de forma
             absoluta la autenticidad de cada boleto; ver la Garantía de Reembolso para los recursos disponibles al
             comprador.
           </p>

@@ -1,4 +1,4 @@
-export const metadata = { title: "Privacidad — GlobalTix" };
+export const metadata = { title: "Privacidad — Global Ticket Resale" };
 
 export default function PrivacyPage() {
   return (
@@ -14,7 +14,7 @@ export default function PrivacyPage() {
           <h2 className="text-lg font-semibold">Datos que recopilamos</h2>
           <p>
             Nombre, correo electrónico, contraseña (almacenada como hash), archivos de boletos que subes para la
-            venta, e información de pago procesada directamente por Stripe (GlobalTix nunca almacena números de
+            venta, e información de pago procesada directamente por Stripe (Global Ticket Resale nunca almacena números de
             tarjeta completos).
           </p>
         </section>

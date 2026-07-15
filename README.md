@@ -1,12 +1,10 @@
-# GlobalTix — Ticket Resale Marketplace (MVP)
+# Global Ticket Resale — Ticket Resale Marketplace (MVP)
 
 Global marketplace for reselling event tickets (concerts, sports, theater) with the lowest combined fee
 in the category: **7% seller + 7% buyer (14% total)**, versus the 30-45% combined fee charged by most
 generalist resale platforms and up to 15% on a single side for some official sports resale platforms.
 
-> "GlobalTix" is a placeholder brand name used throughout the UI/copy so the product has something concrete to
-> look at. Swap it for your real brand/domain before launch (see `src/components/Navbar.tsx`, `src/app/layout.tsx`
-> metadata, and `src/app/page.tsx`).
+Live at [globalticketresale.com](https://globalticketresale.com).
 
 ## Why this architecture
 
@@ -96,7 +94,7 @@ lawyer review, in particular:
 - Anti-scalping / resale-price-cap laws that vary by state, province, or country.
 - Reseller licensing requirements in some U.S. states.
 - Ticket issuers' own terms of sale, which sometimes restrict resale outside their official channel —
-  GlobalTix isn't a party to that contract, but sellers should be aware of it (see `/terms`).
+  Global Ticket Resale isn't a party to that contract, but sellers should be aware of it (see `/terms`).
 
 `/terms`, `/privacy`, and `/refund-policy` contain drafted starting points for these policies — they are
 not legal advice and must be reviewed before publishing.

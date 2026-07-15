@@ -11,9 +11,9 @@ export function Navbar() {
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
         <Link href="/" className="flex items-center gap-2 text-lg font-bold text-slate-900 dark:text-white">
           <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-600 text-white">
-            GT
+            GTR
           </span>
-          GlobalTix
+          Global Ticket Resale
         </Link>
 
         <nav className="hidden items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-300 sm:flex">

@@ -59,7 +59,7 @@ export default function Home() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-        <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Por qué confiar en GlobalTix</h2>
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Por qué confiar en Global Ticket Resale</h2>
         <div className="mt-8 grid gap-6 sm:grid-cols-2">
           {trustPoints.map((point) => (
             <div
@@ -84,7 +84,7 @@ export default function Home() {
             </thead>
             <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
               <tr className="bg-emerald-50 font-semibold text-emerald-800 dark:bg-emerald-900/20 dark:text-emerald-300">
-                <td className="px-6 py-3">GlobalTix</td>
+                <td className="px-6 py-3">Global Ticket Resale</td>
                 <td className="px-6 py-3">14% (7% + 7%)</td>
               </tr>
               <tr>

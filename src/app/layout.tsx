@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "GlobalTix — Reventa de boletos con la comisión más baja del mercado",
+  title: "Global Ticket Resale — Reventa de boletos con la comisión más baja del mercado",
   description:
     "Compra y vende boletos de conciertos, deportes y teatro en todo el mundo con pagos en custodia, garantía de reembolso y solo 7% + 7% de comisión.",
 };
