@@ -4,6 +4,8 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+import { SocialSignIn } from "@/components/SocialSignIn";
+
 export default function RegisterPage() {
   const router = useRouter();
   const [form, setForm] = useState({ name: "", email: "", password: "" });
@@ -47,7 +49,12 @@ export default function RegisterPage() {
   return (
     <div className="mx-auto max-w-md px-4 py-16 sm:px-6">
       <h1 className="text-2xl font-bold text-navy-900 dark:text-white">Sign up</h1>
-      <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+
+      <div className="mt-6">
+        <SocialSignIn callbackUrl="/dashboard" />
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="name" className="text-sm font-medium text-slate-700 dark:text-slate-300">
             Name

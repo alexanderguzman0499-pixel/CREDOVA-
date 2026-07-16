@@ -2,6 +2,8 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcryptjs";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import Facebook from "next-auth/providers/facebook";
+import Google from "next-auth/providers/google";
 import { z } from "zod";
 
 import { prisma } from "@/lib/prisma";
@@ -37,6 +39,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         return { id: user.id, email: user.email, name: user.name };
       },
+    }),
+    // Both Google and Facebook verify the account's email before returning
+    // it to us, so linking an OAuth sign-in to an existing email/password
+    // account with the same address is safe here.
+    Google({
+      allowDangerousEmailAccountLinking: true,
+    }),
+    Facebook({
+      allowDangerousEmailAccountLinking: true,
     }),
   ],
   callbacks: {

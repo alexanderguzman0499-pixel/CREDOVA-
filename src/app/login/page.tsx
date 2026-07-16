@@ -4,6 +4,8 @@ import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 
+import { SocialSignIn } from "@/components/SocialSignIn";
+
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -37,7 +39,12 @@ function LoginForm() {
   return (
     <div className="mx-auto max-w-md px-4 py-16 sm:px-6">
       <h1 className="text-2xl font-bold text-navy-900 dark:text-white">Sign in</h1>
-      <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+
+      <div className="mt-6">
+        <SocialSignIn callbackUrl={callbackUrl} />
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="email" className="text-sm font-medium text-slate-700 dark:text-slate-300">
             Email
