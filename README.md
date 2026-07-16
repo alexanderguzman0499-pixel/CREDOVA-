@@ -101,8 +101,6 @@ not legal advice and must be reviewed before publishing.
 
 ## Known gaps / next steps
 
-- Ticket file storage (`src/lib/storage.ts`) writes to local disk for development. Swap for S3/Cloudflare R2
-  with private ACLs before deploying.
 - No automated test suite yet (manual + Playwright smoke-tested during development).
 - Multi-currency display beyond the `currency` field on each listing (FX conversion, localized formatting)
   is not implemented.
