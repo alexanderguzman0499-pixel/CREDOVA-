@@ -25,7 +25,7 @@ function LoginForm() {
     });
 
     if (result?.error) {
-      setError("Correo o contraseña incorrectos.");
+      setError("Incorrect email or password.");
       setSubmitting(false);
       return;
     }
@@ -36,11 +36,11 @@ function LoginForm() {
 
   return (
     <div className="mx-auto max-w-md px-4 py-16 sm:px-6">
-      <h1 className="text-2xl font-bold text-navy-900 dark:text-white">Entrar</h1>
+      <h1 className="text-2xl font-bold text-navy-900 dark:text-white">Sign in</h1>
       <form onSubmit={handleSubmit} className="mt-6 space-y-4">
         <div>
           <label htmlFor="email" className="text-sm font-medium text-slate-700 dark:text-slate-300">
-            Correo electrónico
+            Email
           </label>
           <input
             id="email"
@@ -54,7 +54,7 @@ function LoginForm() {
         </div>
         <div>
           <label htmlFor="password" className="text-sm font-medium text-slate-700 dark:text-slate-300">
-            Contraseña
+            Password
           </label>
           <input
             id="password"
@@ -72,7 +72,7 @@ function LoginForm() {
           disabled={submitting}
           className="w-full rounded-full bg-navy-900 px-5 py-2.5 font-semibold text-white hover:bg-navy-800 disabled:opacity-60"
         >
-          {submitting ? "Entrando…" : "Entrar"}
+          {submitting ? "Signing in…" : "Sign in"}
         </button>
       </form>
     </div>

@@ -2,20 +2,20 @@ import Link from "next/link";
 
 const trustPoints = [
   {
-    title: "La comisión más baja del mercado",
-    body: "7% al vendedor + 7% al comprador, todo incluido desde el primer clic. Sin sorpresas al pagar, a diferencia de otras plataformas que cobran hasta 15%.",
+    title: "The lowest fee in the market",
+    body: "7% for the seller + 7% for the buyer, all included from the first click. No surprises at checkout, unlike platforms that charge up to 15%.",
   },
   {
-    title: "Tu dinero, protegido",
-    body: "Cada compra queda retenida en custodia (escrow) hasta que confirmas que tu boleto es válido. Si algo sale mal, reembolso automático.",
+    title: "Your money, protected",
+    body: "Every purchase is held in escrow until you confirm your ticket is valid. If anything goes wrong, you get an automatic refund.",
   },
   {
-    title: "Verificación anti-fraude",
-    body: "Cada boleto se analiza para detectar duplicados antes de publicarse: el mismo boleto no puede venderse dos veces en la plataforma.",
+    title: "Anti-fraud verification",
+    body: "Every ticket is scanned for duplicates before it's listed: the same ticket can't be sold twice on the platform.",
   },
   {
-    title: "Alcance global",
-    body: "Conciertos, deportes y teatro en cualquier país, con soporte multi-moneda desde el primer día.",
+    title: "Global reach",
+    body: "Concerts, sports, and theater in any country, with multi-currency support from day one.",
   },
 ];
 
@@ -29,41 +29,41 @@ export default function Home() {
         />
         <div className="relative mx-auto max-w-6xl px-4 py-20 sm:px-6">
           <p className="mb-3 inline-block rounded-full border border-gold-500/30 bg-gold-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-gold-300">
-            La reventa de boletos más justa del mundo
+            The fairest ticket resale marketplace in the world
           </p>
           <h1 className="max-w-3xl text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
-            Compra y vende cualquier boleto, en cualquier parte del mundo, con la comisión más baja del mercado.
+            Buy and sell any ticket, anywhere in the world, with the lowest fee in the market.
           </h1>
           <p className="mt-4 max-w-2xl text-lg text-navy-200">
-            Conciertos, deportes y teatro. 7% + 7% de comisión total, precio todo incluido desde el inicio, y garantía
-            de reembolso si algo sale mal.
+            Concerts, sports, and theater. 7% + 7% total fees, all-inclusive pricing from the start, and a refund
+            guarantee if anything goes wrong.
           </p>
 
           <form action="/events" className="mt-8 flex max-w-xl flex-col gap-3 sm:flex-row">
             <input
               type="text"
               name="q"
-              placeholder="Busca un artista, equipo o evento..."
+              placeholder="Search an artist, team, or event..."
               className="w-full flex-1 rounded-full border border-navy-700 bg-navy-900 px-5 py-3 text-white placeholder:text-navy-400 shadow-sm focus:border-gold-500 focus:outline-none"
             />
             <button
               type="submit"
               className="rounded-full bg-gold-500 px-6 py-3 font-semibold text-navy-950 shadow-sm hover:bg-gold-400"
             >
-              Buscar boletos
+              Search tickets
             </button>
           </form>
 
           <div className="mt-6 flex flex-wrap gap-3 text-sm">
             <Link href="/sell/new" className="font-medium text-gold-300 hover:underline">
-              ¿Tienes un boleto que ya no puedes usar? Véndelo aquí →
+              Have a ticket you can no longer use? Sell it here →
             </Link>
           </div>
         </div>
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-        <h2 className="text-2xl font-bold text-navy-900 dark:text-white">Por qué confiar en Global Ticket Resale</h2>
+        <h2 className="text-2xl font-bold text-navy-900 dark:text-white">Why trust Global Ticket Resale</h2>
         <div className="mt-8 grid gap-6 sm:grid-cols-2">
           {trustPoints.map((point) => (
             <div
@@ -82,8 +82,8 @@ export default function Home() {
           <table className="w-full text-left text-sm">
             <thead className="bg-slate-100 text-slate-500 dark:bg-slate-900 dark:text-slate-400">
               <tr>
-                <th className="px-6 py-3">Plataforma</th>
-                <th className="px-6 py-3">Comisión combinada aproximada</th>
+                <th className="px-6 py-3">Platform</th>
+                <th className="px-6 py-3">Approximate combined fee</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
@@ -94,19 +94,19 @@ export default function Home() {
                 <td className="px-6 py-3 text-gold-300">14% (7% + 7%)</td>
               </tr>
               <tr>
-                <td className="px-6 py-3">Otras plataformas de reventa generalistas</td>
+                <td className="px-6 py-3">Other general resale platforms</td>
                 <td className="px-6 py-3">~30% – 45%</td>
               </tr>
               <tr>
-                <td className="px-6 py-3">Plataformas oficiales de eventos deportivos internacionales</td>
-                <td className="px-6 py-3">Hasta ~15% de un solo lado</td>
+                <td className="px-6 py-3">Official international sports resale platforms</td>
+                <td className="px-6 py-3">Up to ~15% on one side alone</td>
               </tr>
             </tbody>
           </table>
         </div>
         <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">
-          Comparación referencial basada en tarifas publicadas por competidores al momento de construir esta
-          plataforma; las tarifas de terceros pueden cambiar.
+          Reference comparison based on fees published by competitors at the time this platform was built;
+          third-party fees may change.
         </p>
       </section>
     </div>

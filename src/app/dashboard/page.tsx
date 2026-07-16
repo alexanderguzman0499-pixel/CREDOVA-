@@ -28,10 +28,10 @@ export default async function DashboardPage() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
-      <h1 className="text-2xl font-bold text-navy-900 dark:text-white">Mi panel</h1>
+      <h1 className="text-2xl font-bold text-navy-900 dark:text-white">My account</h1>
 
       <section className="mt-10">
-        <h2 className="text-lg font-bold text-navy-900 dark:text-white">Mis compras</h2>
+        <h2 className="text-lg font-bold text-navy-900 dark:text-white">My purchases</h2>
         <div className="mt-4 space-y-3">
           {purchases.map((order) => (
             <div
@@ -43,7 +43,7 @@ export default async function DashboardPage() {
                   <p className="font-semibold text-slate-900 dark:text-white">{order.listing.event.name}</p>
                   <p className="text-sm text-slate-500 dark:text-slate-400">{order.listing.title}</p>
                   <p className="text-sm text-slate-500 dark:text-slate-400">
-                    {new Date(order.listing.event.eventDate).toLocaleDateString("es-ES")}
+                    {new Date(order.listing.event.eventDate).toLocaleDateString("en-US")}
                   </p>
                 </div>
                 <div className="text-right">
@@ -58,9 +58,9 @@ export default async function DashboardPage() {
           ))}
           {purchases.length === 0 && (
             <p className="text-sm text-slate-500 dark:text-slate-400">
-              Aún no has comprado boletos.{" "}
+              You haven&apos;t bought any tickets yet.{" "}
               <Link href="/events" className="font-medium text-gold-700 hover:underline dark:text-gold-400">
-                Explora eventos
+                Explore events
               </Link>
               .
             </p>
@@ -70,17 +70,17 @@ export default async function DashboardPage() {
 
       <section className="mt-12">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold text-navy-900 dark:text-white">Mis boletos en venta</h2>
+          <h2 className="text-lg font-bold text-navy-900 dark:text-white">My listings</h2>
           <Link href="/sell/new" className="text-sm font-medium text-gold-700 hover:underline dark:text-gold-400">
-            + Nuevo boleto
+            + New ticket
           </Link>
         </div>
 
         {!stripeConnect?.payoutsEnabled && (
           <div className="mt-4 rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-800 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-200">
-            Falta configurar tu cuenta de pagos para poder recibir dinero por tus ventas.{" "}
+            You still need to set up your payout account to get paid for your sales.{" "}
             <Link href="/sell/onboarding" className="font-semibold underline">
-              Configurar ahora
+              Set up now
             </Link>
           </div>
         )}
@@ -100,13 +100,13 @@ export default async function DashboardPage() {
                   {formatCents(listing.pricePerTicketCents, listing.currency)}
                 </p>
                 <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                  {listing.status} · {listing.orders.length} orden(es)
+                  {listing.status} · {listing.orders.length} order(s)
                 </p>
               </div>
             </div>
           ))}
           {listings.length === 0 && (
-            <p className="text-sm text-slate-500 dark:text-slate-400">Todavía no has publicado boletos.</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400">You haven&apos;t listed any tickets yet.</p>
           )}
         </div>
       </section>

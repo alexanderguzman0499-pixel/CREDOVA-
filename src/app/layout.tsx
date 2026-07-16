@@ -17,9 +17,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Global Ticket Resale — Reventa de boletos con la comisión más baja del mercado",
+  title: "Global Ticket Resale — The lowest-fee ticket marketplace",
   description:
-    "Compra y vende boletos de conciertos, deportes y teatro en todo el mundo con pagos en custodia, garantía de reembolso y solo 7% + 7% de comisión.",
+    "Buy and sell concert, sports, and theater tickets worldwide with escrow payments, a buyer guarantee, and just 7% + 7% in fees.",
 };
 
 export default function RootLayout({
@@ -29,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="es"
+      lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-50">

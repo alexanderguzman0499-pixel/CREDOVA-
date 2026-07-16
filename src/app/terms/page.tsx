@@ -1,59 +1,56 @@
-export const metadata = { title: "Términos de servicio — Global Ticket Resale" };
+export const metadata = { title: "Terms of Service — Global Ticket Resale" };
 
 export default function TermsPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
-      <h1 className="text-2xl font-bold text-navy-900 dark:text-white">Términos de servicio</h1>
+      <h1 className="text-2xl font-bold text-navy-900 dark:text-white">Terms of Service</h1>
       <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-        Este texto es un borrador de referencia generado para el desarrollo del producto y debe ser revisado por un
-        abogado antes de publicarse o de operar comercialmente.
+        This is a reference draft generated during product development and must be reviewed by a lawyer before
+        publishing or operating commercially.
       </p>
 
       <div className="prose prose-slate mt-8 max-w-none space-y-6 dark:prose-invert">
         <section>
-          <h2 className="text-lg font-semibold">1. Qué es Global Ticket Resale</h2>
+          <h2 className="text-lg font-semibold">1. What Global Ticket Resale is</h2>
           <p>
-            Global Ticket Resale es un mercado (marketplace) que conecta a compradores y vendedores de boletos de eventos.
-            Global Ticket Resale no es el organizador del evento, no emite los boletos y no garantiza el ingreso al evento más
-            allá de lo descrito en nuestra Garantía de Reembolso.
+            Global Ticket Resale is a marketplace that connects buyers and sellers of event tickets. Global Ticket
+            Resale is not the event organizer, does not issue tickets, and does not guarantee entry to the event
+            beyond what is described in our Refund Guarantee.
           </p>
         </section>
         <section>
-          <h2 className="text-lg font-semibold">2. Comisiones</h2>
+          <h2 className="text-lg font-semibold">2. Fees</h2>
           <p>
-            Cobramos una comisión de servicio del 7% al comprador y 7% al vendedor sobre el precio de venta del
-            boleto (14% combinado). El precio mostrado al comprador antes de pagar es el precio final, todo incluido.
+            We charge a service fee of 7% to the buyer and 7% to the seller on the ticket&apos;s sale price (14%
+            combined). The price shown to the buyer before payment is the final, all-inclusive price.
           </p>
         </section>
         <section>
-          <h2 className="text-lg font-semibold">3. Cumplimiento legal y restricciones de reventa</h2>
+          <h2 className="text-lg font-semibold">3. Legal compliance and resale restrictions</h2>
           <p>
-            Las leyes sobre reventa de boletos varían según el país, estado o provincia. Algunas jurisdicciones
-            imponen límites al precio de reventa, requisitos de licencia para revendedores, o prohibiciones
-            específicas. Es responsabilidad del vendedor asegurarse de que su boleto puede revenderse legalmente en
-            la jurisdicción del evento. Adicionalmente, algunos emisores de boletos (por ejemplo, organizadores
-            deportivos o de conciertos) incluyen cláusulas en sus propios términos de venta que restringen o prohíben
-            la reventa fuera de sus canales oficiales; dicha restricción es de naturaleza contractual entre el
-            comprador original y el emisor, y Global Ticket Resale no es parte de esa relación, pero recomienda a los
-            vendedores revisar los términos de su boleto antes de publicarlo.
+            Ticket resale laws vary by country, state, or province. Some jurisdictions impose resale price caps,
+            reseller licensing requirements, or specific prohibitions. It is the seller&apos;s responsibility to ensure
+            their ticket can legally be resold in the event&apos;s jurisdiction. Additionally, some ticket issuers (for
+            example, sports or concert organizers) include clauses in their own terms of sale that restrict or
+            prohibit resale outside their official channels; that restriction is contractual in nature between the
+            original purchaser and the issuer, and Global Ticket Resale is not a party to that relationship, but
+            recommends sellers review their ticket&apos;s terms before listing it.
           </p>
         </section>
         <section>
-          <h2 className="text-lg font-semibold">4. Custodia de fondos (escrow)</h2>
+          <h2 className="text-lg font-semibold">4. Escrow</h2>
           <p>
-            Los pagos de los compradores se procesan a través de Stripe y se retienen por la plataforma hasta que se
-            cumple una condición de liberación (confirmación del comprador o vencimiento de la ventana de retención
-            posterior al evento). Global Ticket Resale no transmite fondos directamente a cuentas bancarias propias del
-            negocio antes de la liberación.
+            Buyer payments are processed through Stripe and held by the platform until a release condition is met
+            (buyer confirmation or expiration of the post-event holding window). Global Ticket Resale does not
+            transfer funds directly to the business&apos;s own bank accounts before release.
           </p>
         </section>
         <section>
-          <h2 className="text-lg font-semibold">5. Boletos fraudulentos o duplicados</h2>
+          <h2 className="text-lg font-semibold">5. Fraudulent or duplicate tickets</h2>
           <p>
-            Global Ticket Resale aplica verificación automática de duplicados (hash del archivo/código de barras) para reducir
-            el riesgo de que un mismo boleto se venda más de una vez. Aun así, Global Ticket Resale no puede garantizar de forma
-            absoluta la autenticidad de cada boleto; ver la Garantía de Reembolso para los recursos disponibles al
-            comprador.
+            Global Ticket Resale runs automatic duplicate verification (file/barcode hashing) to reduce the risk of
+            the same ticket being sold more than once. Even so, Global Ticket Resale cannot absolutely guarantee the
+            authenticity of every ticket; see the Refund Guarantee for the remedies available to buyers.
           </p>
         </section>
       </div>

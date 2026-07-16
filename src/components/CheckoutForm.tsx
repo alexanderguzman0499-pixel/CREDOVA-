@@ -27,7 +27,7 @@ export function CheckoutForm({ listingId }: { listingId: string }) {
       });
       const data = await res.json();
       if (!res.ok) {
-        setError(data.error ?? "No se pudo iniciar la compra.");
+        setError(data.error ?? "Couldn't start the purchase.");
         return;
       }
       setClientSecret(data.clientSecret);
@@ -41,7 +41,7 @@ export function CheckoutForm({ listingId }: { listingId: string }) {
   }
 
   if (!clientSecret || !orderId) {
-    return <p className="text-sm text-slate-500 dark:text-slate-400">Preparando tu pago seguro…</p>;
+    return <p className="text-sm text-slate-500 dark:text-slate-400">Preparing your secure payment…</p>;
   }
 
   return (
@@ -73,7 +73,7 @@ function PaymentForm({ orderId, onSuccess }: { orderId: string; onSuccess: () =>
     });
 
     if (confirmError) {
-      setError(confirmError.message ?? "El pago no pudo procesarse.");
+      setError(confirmError.message ?? "The payment couldn't be processed.");
       setSubmitting(false);
       return;
     }
@@ -90,10 +90,10 @@ function PaymentForm({ orderId, onSuccess }: { orderId: string; onSuccess: () =>
         disabled={!stripe || submitting}
         className="w-full rounded-full bg-navy-900 px-5 py-3 font-semibold text-white hover:bg-navy-800 disabled:opacity-60"
       >
-        {submitting ? "Procesando…" : "Pagar de forma segura"}
+        {submitting ? "Processing…" : "Pay securely"}
       </button>
       <p className="text-xs text-slate-500 dark:text-slate-400">
-        Tu pago queda retenido en custodia hasta que confirmes que el boleto es válido. Procesado por Stripe.
+        Your payment is held in escrow until you confirm the ticket is valid. Processed by Stripe.
       </p>
     </form>
   );

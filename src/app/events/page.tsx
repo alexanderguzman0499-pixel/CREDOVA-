@@ -3,11 +3,11 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 
 const CATEGORIES = [
-  { value: "", label: "Todas" },
-  { value: "CONCERT", label: "Conciertos" },
-  { value: "SPORTS", label: "Deportes" },
-  { value: "THEATER", label: "Teatro" },
-  { value: "OTHER", label: "Otros" },
+  { value: "", label: "All" },
+  { value: "CONCERT", label: "Concerts" },
+  { value: "SPORTS", label: "Sports" },
+  { value: "THEATER", label: "Theater" },
+  { value: "OTHER", label: "Other" },
 ] as const;
 
 export default async function EventsPage({
@@ -31,21 +31,21 @@ export default async function EventsPage({
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-      <h1 className="text-2xl font-bold text-navy-900 dark:text-white">Buscar eventos</h1>
+      <h1 className="text-2xl font-bold text-navy-900 dark:text-white">Find events</h1>
 
       <form className="mt-6 flex flex-wrap gap-3">
         <input
           type="text"
           name="q"
           defaultValue={q}
-          placeholder="Artista, equipo o evento"
+          placeholder="Artist, team, or event"
           className="min-w-[220px] flex-1 rounded-lg border border-slate-300 px-4 py-2 dark:border-slate-700 dark:bg-slate-900"
         />
         <input
           type="text"
           name="city"
           defaultValue={city}
-          placeholder="Ciudad"
+          placeholder="City"
           className="w-48 rounded-lg border border-slate-300 px-4 py-2 dark:border-slate-700 dark:bg-slate-900"
         />
         <select
@@ -63,7 +63,7 @@ export default async function EventsPage({
           type="submit"
           className="rounded-lg bg-navy-900 px-5 py-2 font-semibold text-white hover:bg-navy-800"
         >
-          Buscar
+          Search
         </button>
       </form>
 
@@ -80,16 +80,16 @@ export default async function EventsPage({
               {event.venue} · {event.city}, {event.country}
             </p>
             <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-              {new Date(event.eventDate).toLocaleString("es-ES", { dateStyle: "medium", timeStyle: "short" })}
+              {new Date(event.eventDate).toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })}
             </p>
             <p className="mt-3 text-sm font-medium text-navy-700 dark:text-navy-300">
-              {event._count.listings} boleto(s) disponible(s)
+              {event._count.listings} ticket(s) available
             </p>
           </Link>
         ))}
         {events.length === 0 && (
           <p className="col-span-full text-slate-500 dark:text-slate-400">
-            No encontramos eventos con esos filtros todavía.
+            We couldn&apos;t find any events matching those filters yet.
           </p>
         )}
       </div>

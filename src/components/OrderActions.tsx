@@ -4,10 +4,10 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const REFUND_REASONS = [
-  { value: "INVALID_TICKET", label: "El boleto no es válido" },
-  { value: "EVENT_CANCELLED", label: "El evento fue cancelado" },
-  { value: "SELLER_NO_SHOW", label: "El vendedor no entregó el boleto" },
-  { value: "OTHER", label: "Otro motivo" },
+  { value: "INVALID_TICKET", label: "The ticket isn't valid" },
+  { value: "EVENT_CANCELLED", label: "The event was cancelled" },
+  { value: "SELLER_NO_SHOW", label: "The seller didn't deliver the ticket" },
+  { value: "OTHER", label: "Other reason" },
 ];
 
 export function OrderActions({ orderId }: { orderId: string }) {
@@ -24,7 +24,7 @@ export function OrderActions({ orderId }: { orderId: string }) {
     const data = await res.json();
     setBusy(false);
     if (!res.ok) {
-      setMessage(data.error ?? "No se pudo confirmar.");
+      setMessage(data.error ?? "Couldn't confirm.");
       return;
     }
     router.refresh();
@@ -41,7 +41,7 @@ export function OrderActions({ orderId }: { orderId: string }) {
     const data = await res.json();
     setBusy(false);
     if (!res.ok) {
-      setMessage(data.error ?? "No se pudo solicitar el reembolso.");
+      setMessage(data.error ?? "Couldn't request the refund.");
       return;
     }
     setShowRefund(false);
@@ -56,14 +56,14 @@ export function OrderActions({ orderId }: { orderId: string }) {
           disabled={busy}
           className="rounded-full bg-navy-900 px-4 py-1.5 text-xs font-semibold text-white hover:bg-navy-800 disabled:opacity-60"
         >
-          Confirmar que todo está bien
+          Confirm everything is fine
         </button>
         <button
           onClick={() => setShowRefund((v) => !v)}
           disabled={busy}
           className="rounded-full border border-red-300 px-4 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50 dark:hover:bg-red-950"
         >
-          Solicitar reembolso
+          Request a refund
         </button>
       </div>
 
@@ -85,7 +85,7 @@ export function OrderActions({ orderId }: { orderId: string }) {
             disabled={busy}
             className="rounded-full bg-red-600 px-4 py-1.5 text-xs font-semibold text-white hover:bg-red-500 disabled:opacity-60"
           >
-            Confirmar solicitud
+            Confirm request
           </button>
         </div>
       )}

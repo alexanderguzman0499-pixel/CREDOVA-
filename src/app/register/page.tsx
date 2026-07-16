@@ -23,7 +23,7 @@ export default function RegisterPage() {
     const data = await res.json();
 
     if (!res.ok) {
-      setError(data.error ?? "No se pudo crear la cuenta.");
+      setError(data.error ?? "Couldn't create the account.");
       setSubmitting(false);
       return;
     }
@@ -35,7 +35,7 @@ export default function RegisterPage() {
     });
 
     if (result?.error) {
-      setError("Cuenta creada, pero no se pudo iniciar sesión automáticamente. Intenta entrar manualmente.");
+      setError("Account created, but automatic sign-in failed. Try signing in manually.");
       setSubmitting(false);
       return;
     }
@@ -46,11 +46,11 @@ export default function RegisterPage() {
 
   return (
     <div className="mx-auto max-w-md px-4 py-16 sm:px-6">
-      <h1 className="text-2xl font-bold text-navy-900 dark:text-white">Crear cuenta</h1>
+      <h1 className="text-2xl font-bold text-navy-900 dark:text-white">Sign up</h1>
       <form onSubmit={handleSubmit} className="mt-6 space-y-4">
         <div>
           <label htmlFor="name" className="text-sm font-medium text-slate-700 dark:text-slate-300">
-            Nombre
+            Name
           </label>
           <input
             id="name"
@@ -63,7 +63,7 @@ export default function RegisterPage() {
         </div>
         <div>
           <label htmlFor="email" className="text-sm font-medium text-slate-700 dark:text-slate-300">
-            Correo electrónico
+            Email
           </label>
           <input
             id="email"
@@ -77,7 +77,7 @@ export default function RegisterPage() {
         </div>
         <div>
           <label htmlFor="password" className="text-sm font-medium text-slate-700 dark:text-slate-300">
-            Contraseña
+            Password
           </label>
           <input
             id="password"
@@ -96,7 +96,7 @@ export default function RegisterPage() {
           disabled={submitting}
           className="w-full rounded-full bg-navy-900 px-5 py-2.5 font-semibold text-white hover:bg-navy-800 disabled:opacity-60"
         >
-          {submitting ? "Creando cuenta…" : "Crear cuenta"}
+          {submitting ? "Creating account…" : "Sign up"}
         </button>
       </form>
     </div>

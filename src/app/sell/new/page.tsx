@@ -11,16 +11,17 @@ interface EventOption {
 }
 
 const CATEGORIES = [
-  { value: "CONCERT", label: "Concierto" },
-  { value: "SPORTS", label: "Deportes" },
-  { value: "THEATER", label: "Teatro" },
-  { value: "OTHER", label: "Otro" },
+  { value: "CONCERT", label: "Concert" },
+  { value: "SPORTS", label: "Sports" },
+  { value: "THEATER", label: "Theater" },
+  { value: "OTHER", label: "Other" },
 ];
 
 export default function NewListingPage() {
   const router = useRouter();
   const [events, setEvents] = useState<EventOption[]>([]);
-  const [mode, setMode] = useState<"existing" | "new">("existing");
+  const [eventsLoaded, setEventsLoaded] = useState(false);
+  const [mode, setMode] = useState<"existing" | "new">("new");
   const [eventId, setEventId] = useState("");
   const [newEvent, setNewEvent] = useState({
     name: "",
@@ -44,7 +45,10 @@ export default function NewListingPage() {
   useEffect(() => {
     fetch("/api/events")
       .then((r) => r.json())
-      .then((data) => setEvents(data.events ?? []));
+      .then((data) => {
+        setEvents(data.events ?? []);
+        setEventsLoaded(true);
+      });
   }, []);
 
   async function handleSubmit(e: React.FormEvent) {
@@ -52,7 +56,7 @@ export default function NewListingPage() {
     setError(null);
 
     if (!file) {
-      setError("Sube el PDF o captura de tu boleto (código de barras visible).");
+      setError("Upload your ticket's PDF or screenshot (barcode visible).");
       return;
     }
 
@@ -67,7 +71,7 @@ export default function NewListingPage() {
       });
       const data = await res.json();
       if (!res.ok) {
-        setError(data.error ?? "No se pudo crear el evento.");
+        setError(data.error ?? "Couldn't create the event.");
         setSubmitting(false);
         return;
       }
@@ -88,7 +92,7 @@ export default function NewListingPage() {
     const data = await res.json();
 
     if (!res.ok) {
-      setError(data.error ?? "No se pudo publicar el boleto.");
+      setError(data.error ?? "Couldn't publish the ticket.");
       setSubmitting(false);
       return;
     }
@@ -98,46 +102,56 @@ export default function NewListingPage() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6">
-      <h1 className="text-2xl font-bold text-navy-900 dark:text-white">Vender un boleto</h1>
+      <h1 className="text-2xl font-bold text-navy-900 dark:text-white">Sell a ticket</h1>
       <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-        Publicar es gratis. Solo pagas el 7% cuando tu boleto se vende, y el dinero te llega automáticamente después
-        del evento (o antes, si el comprador confirma que todo está bien).
+        Listing is free. You only pay the 7% fee when your ticket sells, and the money reaches you automatically
+        after the event (or sooner, if the buyer confirms everything went fine).
       </p>
 
       <form onSubmit={handleSubmit} className="mt-6 space-y-6">
         <fieldset className="space-y-3 rounded-2xl border border-slate-200 p-5 dark:border-slate-800">
-          <legend className="px-1 text-sm font-semibold text-slate-700 dark:text-slate-300">Evento</legend>
+          <legend className="px-1 text-sm font-semibold text-slate-700 dark:text-slate-300">Event</legend>
 
           <div className="flex gap-4 text-sm">
             <label className="flex items-center gap-2">
-              <input type="radio" checked={mode === "existing"} onChange={() => setMode("existing")} />
-              Elegir evento existente
+              <input type="radio" checked={mode === "new"} onChange={() => setMode("new")} />
+              Create a new event
             </label>
             <label className="flex items-center gap-2">
-              <input type="radio" checked={mode === "new"} onChange={() => setMode("new")} />
-              Crear nuevo evento
+              <input type="radio" checked={mode === "existing"} onChange={() => setMode("existing")} />
+              Choose an existing event
             </label>
           </div>
 
           {mode === "existing" ? (
-            <select
-              required
-              value={eventId}
-              onChange={(e) => setEventId(e.target.value)}
-              className="w-full rounded-lg border border-slate-300 px-4 py-2 dark:border-slate-700 dark:bg-slate-900"
-            >
-              <option value="">Selecciona un evento…</option>
-              {events.map((ev) => (
-                <option key={ev.id} value={ev.id}>
-                  {ev.name} · {ev.city} · {new Date(ev.eventDate).toLocaleDateString()}
-                </option>
-              ))}
-            </select>
+            eventsLoaded && events.length === 0 ? (
+              <p className="rounded-lg bg-slate-50 px-4 py-3 text-sm text-slate-500 dark:bg-slate-900 dark:text-slate-400">
+                No events on the platform yet.{" "}
+                <button type="button" onClick={() => setMode("new")} className="font-medium text-gold-700 underline dark:text-gold-400">
+                  Create the first one
+                </button>
+                .
+              </p>
+            ) : (
+              <select
+                required
+                value={eventId}
+                onChange={(e) => setEventId(e.target.value)}
+                className="w-full rounded-lg border border-slate-300 px-4 py-2 dark:border-slate-700 dark:bg-slate-900"
+              >
+                <option value="">Select an event…</option>
+                {events.map((ev) => (
+                  <option key={ev.id} value={ev.id}>
+                    {ev.name} · {ev.city} · {new Date(ev.eventDate).toLocaleDateString("en-US")}
+                  </option>
+                ))}
+              </select>
+            )
           ) : (
             <div className="grid gap-3 sm:grid-cols-2">
               <input
                 required
-                placeholder="Nombre del evento"
+                placeholder="Event name"
                 value={newEvent.name}
                 onChange={(e) => setNewEvent({ ...newEvent, name: e.target.value })}
                 className="rounded-lg border border-slate-300 px-4 py-2 sm:col-span-2 dark:border-slate-700 dark:bg-slate-900"
@@ -162,21 +176,21 @@ export default function NewListingPage() {
               />
               <input
                 required
-                placeholder="Recinto / estadio"
+                placeholder="Venue"
                 value={newEvent.venue}
                 onChange={(e) => setNewEvent({ ...newEvent, venue: e.target.value })}
                 className="rounded-lg border border-slate-300 px-4 py-2 dark:border-slate-700 dark:bg-slate-900"
               />
               <input
                 required
-                placeholder="Ciudad"
+                placeholder="City"
                 value={newEvent.city}
                 onChange={(e) => setNewEvent({ ...newEvent, city: e.target.value })}
                 className="rounded-lg border border-slate-300 px-4 py-2 dark:border-slate-700 dark:bg-slate-900"
               />
               <input
                 required
-                placeholder="País"
+                placeholder="Country"
                 value={newEvent.country}
                 onChange={(e) => setNewEvent({ ...newEvent, country: e.target.value })}
                 className="rounded-lg border border-slate-300 px-4 py-2 dark:border-slate-700 dark:bg-slate-900"
@@ -186,23 +200,23 @@ export default function NewListingPage() {
         </fieldset>
 
         <fieldset className="space-y-3 rounded-2xl border border-slate-200 p-5 dark:border-slate-800">
-          <legend className="px-1 text-sm font-semibold text-slate-700 dark:text-slate-300">Detalles del boleto</legend>
+          <legend className="px-1 text-sm font-semibold text-slate-700 dark:text-slate-300">Ticket details</legend>
           <input
             required
-            placeholder="Título (ej. General, VIP, Sección 102)"
+            placeholder="Title (e.g. General, VIP, Section 102)"
             value={listingFields.title}
             onChange={(e) => setListingFields({ ...listingFields, title: e.target.value })}
             className="w-full rounded-lg border border-slate-300 px-4 py-2 dark:border-slate-700 dark:bg-slate-900"
           />
           <div className="grid gap-3 sm:grid-cols-4">
             <input
-              placeholder="Sección"
+              placeholder="Section"
               value={listingFields.section}
               onChange={(e) => setListingFields({ ...listingFields, section: e.target.value })}
               className="rounded-lg border border-slate-300 px-4 py-2 dark:border-slate-700 dark:bg-slate-900"
             />
             <input
-              placeholder="Fila"
+              placeholder="Row"
               value={listingFields.row}
               onChange={(e) => setListingFields({ ...listingFields, row: e.target.value })}
               className="rounded-lg border border-slate-300 px-4 py-2 dark:border-slate-700 dark:bg-slate-900"
@@ -212,7 +226,7 @@ export default function NewListingPage() {
               type="number"
               min={1}
               max={20}
-              placeholder="Cantidad"
+              placeholder="Quantity"
               value={listingFields.quantity}
               onChange={(e) => setListingFields({ ...listingFields, quantity: e.target.value })}
               className="rounded-lg border border-slate-300 px-4 py-2 dark:border-slate-700 dark:bg-slate-900"
@@ -222,7 +236,7 @@ export default function NewListingPage() {
               type="number"
               min={1}
               step="0.01"
-              placeholder="Precio por boleto (USD)"
+              placeholder="Price per ticket (USD)"
               value={listingFields.price}
               onChange={(e) => setListingFields({ ...listingFields, price: e.target.value })}
               className="rounded-lg border border-slate-300 px-4 py-2 dark:border-slate-700 dark:bg-slate-900"
@@ -230,7 +244,7 @@ export default function NewListingPage() {
           </div>
           <div>
             <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-              Sube tu boleto (PDF o captura con el código de barras)
+              Upload your ticket (PDF or screenshot with the barcode)
             </label>
             <input
               required
@@ -240,7 +254,7 @@ export default function NewListingPage() {
               className="mt-1 block w-full text-sm"
             />
             <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-              Verificamos automáticamente que este boleto no se haya publicado antes en la plataforma.
+              We automatically check that this ticket hasn&apos;t already been listed on the platform.
             </p>
           </div>
         </fieldset>
@@ -252,7 +266,7 @@ export default function NewListingPage() {
           disabled={submitting}
           className="w-full rounded-full bg-navy-900 px-5 py-3 font-semibold text-white hover:bg-navy-800 disabled:opacity-60"
         >
-          {submitting ? "Publicando…" : "Publicar boleto"}
+          {submitting ? "Publishing…" : "Publish ticket"}
         </button>
       </form>
     </div>

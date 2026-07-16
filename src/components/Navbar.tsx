@@ -17,13 +17,13 @@ export function Navbar() {
 
         <nav className="hidden items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-300 sm:flex">
           <Link href="/events" className="hover:text-gold-600 dark:hover:text-gold-400">
-            Buscar eventos
+            Find events
           </Link>
           <Link href="/sell/new" className="hover:text-gold-600 dark:hover:text-gold-400">
-            Vender boletos
+            Sell tickets
           </Link>
           <Link href="/how-it-works" className="hover:text-gold-600 dark:hover:text-gold-400">
-            Cómo funciona
+            How it works
           </Link>
         </nav>
 
@@ -34,13 +34,13 @@ export function Navbar() {
                 href="/dashboard"
                 className="text-sm font-medium text-slate-700 hover:text-gold-600 dark:hover:text-gold-400 dark:text-slate-200"
               >
-                Mi panel
+                My account
               </Link>
               <button
                 onClick={() => signOut({ callbackUrl: "/" })}
                 className="rounded-full border border-slate-300 px-4 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-900"
               >
-                Salir
+                Sign out
               </button>
             </>
           ) : (
@@ -49,13 +49,13 @@ export function Navbar() {
                 href="/login"
                 className="text-sm font-medium text-slate-700 hover:text-gold-600 dark:hover:text-gold-400 dark:text-slate-200"
               >
-                Entrar
+                Sign in
               </Link>
               <Link
                 href="/register"
                 className="rounded-full bg-navy-900 px-4 py-1.5 text-sm font-semibold text-white hover:bg-navy-800"
               >
-                Crear cuenta
+                Sign up
               </Link>
             </>
           )}

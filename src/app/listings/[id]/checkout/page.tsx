@@ -26,7 +26,7 @@ export default async function CheckoutPage({
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
-      <h1 className="text-2xl font-bold text-navy-900 dark:text-white">Confirmar compra</h1>
+      <h1 className="text-2xl font-bold text-navy-900 dark:text-white">Confirm your purchase</h1>
 
       <div className="mt-6 grid gap-8 sm:grid-cols-2">
         <div className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
@@ -38,21 +38,21 @@ export default async function CheckoutPage({
 
           <dl className="mt-6 space-y-2 text-sm">
             <div className="flex justify-between">
-              <dt className="text-slate-500 dark:text-slate-400">Precio del boleto</dt>
+              <dt className="text-slate-500 dark:text-slate-400">Ticket price</dt>
               <dd>{formatCents(pricing.subtotalCents, listing.currency)}</dd>
             </div>
             <div className="flex justify-between">
-              <dt className="text-slate-500 dark:text-slate-400">Comisión de servicio (7%)</dt>
+              <dt className="text-slate-500 dark:text-slate-400">Service fee (7%)</dt>
               <dd>{formatCents(pricing.buyerFeeCents, listing.currency)}</dd>
             </div>
             <div className="flex justify-between border-t border-gold-300 pt-2 font-bold text-navy-900 dark:border-gold-800 dark:text-white">
-              <dt>Total a pagar</dt>
+              <dt>Total due</dt>
               <dd className="text-gold-700 dark:text-gold-400">{formatCents(pricing.totalChargedCents, listing.currency)}</dd>
             </div>
           </dl>
 
           <p className="mt-4 text-xs text-slate-500 dark:text-slate-400">
-            Ningún cargo adicional al finalizar: este es el precio final, todo incluido.
+            No additional charges at checkout: this is the final, all-inclusive price.
           </p>
         </div>
 
