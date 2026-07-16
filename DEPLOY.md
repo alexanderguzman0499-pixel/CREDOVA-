@@ -38,6 +38,9 @@ rather cut fresh ones (`openssl rand -base64 32` / `openssl rand -hex 32`).
 | `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET_NAME` | Cloudflare dashboard → R2 Object Storage → create a private bucket → Manage R2 API Tokens → create a token scoped to Object Read & Write on that bucket. Required in production — see below. |
 | `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET` | Optional — enables "Continue with Google". See setup steps below. |
 | `AUTH_FACEBOOK_ID`, `AUTH_FACEBOOK_SECRET` | Optional — enables "Continue with Facebook". See setup steps below. |
+| `RESEND_API_KEY` | [resend.com](https://resend.com) → API Keys. Free tier covers 3,000 emails/month. Without this set, `src/lib/email.ts` logs a warning and skips sending instead of crashing — fine for early testing, but password reset and order emails silently won't arrive until it's set. |
+| `EMAIL_FROM` | Must be on a domain verified in Resend (Resend → Domains → Add Domain → add the DNS records they give you). Defaults to `Global Ticket Resale <notifications@globalticketresale.com>` if unset. |
+| `ADMIN_EMAILS` | Comma-separated emails allowed into `/admin` (bulk event import, test-data cleanup). Must match the email on the account signing in — e.g. `alexander.guzm4m@gmail.com`. |
 
 ## 3. Social login (Google + Facebook)
 
@@ -72,7 +75,19 @@ Both providers link to an existing email/password account automatically if the e
 (`allowDangerousEmailAccountLinking: true` in `src/lib/auth.ts`) — safe here since Google and
 Facebook both verify the account's email before handing it to us.
 
-## 4. Ticket file storage (Cloudflare R2)
+## 4. Admin tools
+
+Visit `/admin` while signed in with an account whose email is listed in `ADMIN_EMAILS` — anyone
+else gets a 404 (the route doesn't reveal it exists). Two tools:
+
+- **Bulk import events**: paste one event per line as `name,category,venue,city,country,date`
+  (date in ISO format) to seed the marketplace with real events instead of leaving it empty
+  for the first sellers.
+- **Clean up test data**: deletes every event whose name contains "test" (and its listings,
+  orders, refund requests) — use this to clear out smoke-test data created while verifying a
+  deploy.
+
+## 5. Ticket file storage (Cloudflare R2)
 
 `src/lib/storage.ts` uploads ticket files to Cloudflare R2 when the four `R2_*` variables
 above are set — required in production, since Vercel's serverless functions have no
@@ -82,7 +97,7 @@ ticket" would appear to work in production while quietly losing every uploaded f
 bucket should stay private (no public access) — files are served to the app via the R2
 API, never a public URL.
 
-## 5. After the first deploy
+## 6. After the first deploy
 
 - Visit the deployed URL and confirm the home page and `/events` load without a 500 (that
   confirms `DATABASE_URL` and the auto-run migration worked).
@@ -90,7 +105,7 @@ API, never a public URL.
 - Register a test seller + buyer account and run through Stripe Connect onboarding in test
   mode to confirm the escrow flow end-to-end before going live.
 
-## 6. Troubleshooting: "No git sources are allowed in production"
+## 7. Troubleshooting: "No git sources are allowed in production"
 
 If Production deployments get blocked with this exact message (visible on the deployment
 page in a red "Deployment Blocked" box), it's Vercel's **Deployment Policies** (Beta)

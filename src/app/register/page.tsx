@@ -1,6 +1,7 @@
 "use client";
 
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -9,11 +10,18 @@ import { SocialSignIn } from "@/components/SocialSignIn";
 export default function RegisterPage() {
   const router = useRouter();
   const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    if (!agreedToTerms) {
+      setError("You need to agree to the Terms of Service to continue.");
+      return;
+    }
+
     setSubmitting(true);
     setError(null);
 
@@ -53,6 +61,18 @@ export default function RegisterPage() {
       <div className="mt-6">
         <SocialSignIn callbackUrl="/dashboard" />
       </div>
+
+      <p className="mb-4 text-xs text-slate-500 dark:text-slate-400">
+        By continuing with Google or Facebook, you agree to our{" "}
+        <Link href="/terms" className="underline">
+          Terms of Service
+        </Link>{" "}
+        and{" "}
+        <Link href="/privacy" className="underline">
+          Privacy Policy
+        </Link>
+        .
+      </p>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -97,10 +117,30 @@ export default function RegisterPage() {
             className="mt-1 w-full rounded-lg border border-slate-300 px-4 py-2 dark:border-slate-700 dark:bg-slate-900"
           />
         </div>
+        <label className="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-300">
+          <input
+            type="checkbox"
+            required
+            checked={agreedToTerms}
+            onChange={(e) => setAgreedToTerms(e.target.checked)}
+            className="mt-0.5"
+          />
+          <span>
+            I agree to the{" "}
+            <Link href="/terms" className="font-medium text-gold-700 hover:underline dark:text-gold-400">
+              Terms of Service
+            </Link>{" "}
+            and{" "}
+            <Link href="/privacy" className="font-medium text-gold-700 hover:underline dark:text-gold-400">
+              Privacy Policy
+            </Link>
+            .
+          </span>
+        </label>
         {error && <p className="text-sm text-red-600">{error}</p>}
         <button
           type="submit"
-          disabled={submitting}
+          disabled={submitting || !agreedToTerms}
           className="w-full rounded-full bg-navy-900 px-5 py-2.5 font-semibold text-white hover:bg-navy-800 disabled:opacity-60"
         >
           {submitting ? "Creating account…" : "Sign up"}

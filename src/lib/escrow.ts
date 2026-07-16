@@ -1,3 +1,5 @@
+import { sendPayoutReleasedEmail } from "@/lib/email";
+import { formatCents } from "@/lib/fees";
 import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
 
@@ -25,7 +27,7 @@ export function findDueEscrowOrders() {
 export async function releaseEscrowToSeller(orderId: string) {
   const order = await prisma.order.findUnique({
     where: { id: orderId },
-    include: { listing: { include: { seller: { include: { stripeConnect: true } } } } },
+    include: { listing: { include: { event: true, seller: { include: { stripeConnect: true } } } } },
   });
 
   if (!order) throw new Error("Order not found");
@@ -37,16 +39,26 @@ export async function releaseEscrowToSeller(orderId: string) {
   const destination = order.listing.seller.stripeConnect?.stripeAccountId;
   if (!destination) throw new Error("Seller has no connected Stripe account");
 
+  const payoutCents = order.listing.pricePerTicketCents * order.quantity - order.sellerFeeCents;
+
   await stripe.transfers.create({
-    amount: order.listing.pricePerTicketCents * order.quantity - order.sellerFeeCents,
+    amount: payoutCents,
     currency: order.currency,
     destination,
     transfer_group: order.id,
     metadata: { orderId: order.id },
   });
 
-  return prisma.order.update({
+  const updated = await prisma.order.update({
     where: { id: orderId },
     data: { status: "COMPLETED" },
   });
+
+  await sendPayoutReleasedEmail(
+    order.listing.seller.email,
+    order.listing.event.name,
+    formatCents(payoutCents, order.currency),
+  );
+
+  return updated;
 }

@@ -1,8 +1,34 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { computePriceBreakdown, formatCents } from "@/lib/fees";
 import { prisma } from "@/lib/prisma";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const event = await prisma.event.findUnique({ where: { id } });
+  if (!event) return {};
+
+  const title = `${event.name} tickets — ${event.city} | Global Ticket Resale`;
+  const description = `Buy tickets for ${event.name} at ${event.venue}, ${event.city} on ${new Date(
+    event.eventDate,
+  ).toLocaleDateString("en-US", { dateStyle: "long" })}. All-inclusive pricing, escrow-protected, 7% + 7% fees.`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: event.imageUrl ? [event.imageUrl] : undefined,
+    },
+  };
+}
 
 export default async function EventDetailPage({
   params,

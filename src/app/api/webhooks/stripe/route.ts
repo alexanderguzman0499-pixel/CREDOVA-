@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import type Stripe from "stripe";
 
+import { sendOrderConfirmedEmail, sendTicketSoldEmail } from "@/lib/email";
+import { formatCents } from "@/lib/fees";
 import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
 
@@ -28,7 +30,10 @@ export async function POST(request: Request) {
       const paymentIntent = event.data.object as Stripe.PaymentIntent;
       const order = await prisma.order.findUnique({
         where: { stripePaymentIntentId: paymentIntent.id },
-        include: { listing: { include: { event: true } } },
+        include: {
+          listing: { include: { event: true, seller: true } },
+          buyer: true,
+        },
       });
       if (order && order.status === "PENDING_PAYMENT") {
         const escrowReleaseAt = new Date(
@@ -43,6 +48,20 @@ export async function POST(request: Request) {
             where: { id: order.listingId },
             data: { status: "SOLD" },
           }),
+        ]);
+
+        const eventName = order.listing.event.name;
+        await Promise.all([
+          sendOrderConfirmedEmail(
+            order.buyer.email,
+            eventName,
+            formatCents(order.totalChargedCents, order.currency),
+          ),
+          sendTicketSoldEmail(
+            order.listing.seller.email,
+            eventName,
+            formatCents(order.listing.pricePerTicketCents * order.quantity - order.sellerFeeCents, order.currency),
+          ),
         ]);
       }
       break;

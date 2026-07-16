@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import { prisma } from "@/lib/prisma";
+
+export const metadata: Metadata = {
+  title: "Find event tickets — Global Ticket Resale",
+  description:
+    "Search concert, sports, and theater tickets worldwide. All-inclusive pricing, escrow-protected payments, and the lowest combined fee in the market.",
+};
 
 const CATEGORIES = [
   { value: "", label: "All" },

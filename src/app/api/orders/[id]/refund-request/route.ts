@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 
 import { auth } from "@/lib/auth";
+import { sendRefundProcessedEmail } from "@/lib/email";
 import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
 
@@ -37,7 +38,10 @@ export async function POST(
     );
   }
 
-  const order = await prisma.order.findUnique({ where: { id } });
+  const order = await prisma.order.findUnique({
+    where: { id },
+    include: { buyer: true, listing: { include: { event: true } } },
+  });
   if (!order) {
     return NextResponse.json({ error: "Order not found." }, { status: 404 });
   }
@@ -79,6 +83,7 @@ export async function POST(
         data: { status: parsed.data.reason === "INVALID_TICKET" ? "REMOVED" : "ACTIVE" },
       }),
     ]);
+    await sendRefundProcessedEmail(order.buyer.email, order.listing.event.name);
   }
 
   return NextResponse.json({ refundRequest }, { status: 201 });
