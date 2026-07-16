@@ -54,3 +54,25 @@ API, never a public URL.
 - Update the Stripe webhook endpoint URL if you changed the domain after creating it.
 - Register a test seller + buyer account and run through Stripe Connect onboarding in test
   mode to confirm the escrow flow end-to-end before going live.
+
+## 5. Troubleshooting: "No git sources are allowed in production"
+
+If Production deployments get blocked with this exact message (visible on the deployment
+page in a red "Deployment Blocked" box), it's Vercel's **Deployment Policies** (Beta)
+feature — see [vercel.com/docs/deployments/deployment-policy](https://vercel.com/docs/deployments/deployment-policy).
+
+What normally fixes it:
+
+1. Project → Settings → Build and Deployment → **Git Sources** card. If it's set to
+   **Override** with an empty rule for Production, either add the correct source
+   (provider GitHub, org `alexanderguzman0499-pixel`, repo `CREDOVA-`) or delete the rule
+   entirely, then Save.
+2. Repeat for the **Deployment Sources** card just below it.
+3. If neither has a blocking rule (or switching both back to **Inherit from Team**
+   doesn't help either) and the team-level policy settings show nothing restrictive,
+   this is a stuck/stale policy on Vercel's backend, not something fixable from the UI —
+   contact Vercel support with the project name, the exact block message, and confirmation
+   that Git/Deployment Sources show no active restriction. Don't bother repeatedly hitting
+   "Redeploy" on an already-blocked deployment — it always returns "This deployment can
+   not be redeployed. Please try again from a fresh commit," which is a separate,
+   unrelated limitation (redeploy only works on deployments that weren't blocked).
