@@ -43,6 +43,7 @@ export default async function EventDetailPage({
       listings: {
         where: { status: "ACTIVE" },
         orderBy: { pricePerTicketCents: "asc" },
+        include: { seller: { select: { identityVerified: true } } },
       },
     },
   });
@@ -68,7 +69,17 @@ export default async function EventDetailPage({
           return (
             <div key={listing.id} className="flex flex-wrap items-center justify-between gap-3 p-5">
               <div>
-                <p className="font-semibold text-slate-900 dark:text-white">{listing.title}</p>
+                <p className="flex items-center gap-2 font-semibold text-slate-900 dark:text-white">
+                  {listing.title}
+                  {listing.seller.identityVerified && (
+                    <span
+                      title="Seller identity verified"
+                      className="inline-flex items-center gap-1 rounded-full bg-gold-500 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-navy-950"
+                    >
+                      ✓ Verified
+                    </span>
+                  )}
+                </p>
                 <p className="text-sm text-slate-500 dark:text-slate-400">
                   {listing.section ? `Section ${listing.section}` : "General admission"}
                   {listing.row ? ` · Row ${listing.row}` : ""} · {listing.quantity} available

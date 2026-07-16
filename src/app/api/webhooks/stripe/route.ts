@@ -94,6 +94,15 @@ export async function POST(request: Request) {
       break;
     }
 
+    case "identity.verification_session.verified": {
+      const verificationSession = event.data.object as Stripe.Identity.VerificationSession;
+      const userId = verificationSession.metadata?.userId;
+      if (userId) {
+        await prisma.user.update({ where: { id: userId }, data: { identityVerified: true } });
+      }
+      break;
+    }
+
     default:
       break;
   }

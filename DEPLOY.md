@@ -32,7 +32,7 @@ rather cut fresh ones (`openssl rand -base64 32` / `openssl rand -hex 32`).
 | `NEXTAUTH_URL` | Your production URL once Vercel assigns/you set a domain, e.g. `https://your-domain.vercel.app`. |
 | `STRIPE_SECRET_KEY` | [Stripe dashboard → API keys](https://dashboard.stripe.com/apikeys). Use a **test** key until you're ready to take real payments, then swap to live. |
 | `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Same page as above. |
-| `STRIPE_WEBHOOK_SECRET` | Create a webhook endpoint in the Stripe dashboard pointed at `https://<your-domain>/api/webhooks/stripe` (events: `payment_intent.succeeded`, `payment_intent.payment_failed`, `account.updated`) — Stripe shows the signing secret after you create it. |
+| `STRIPE_WEBHOOK_SECRET` | Create a webhook endpoint in the Stripe dashboard pointed at `https://<your-domain>/api/webhooks/stripe` (events: `payment_intent.succeeded`, `payment_intent.payment_failed`, `account.updated`, `identity.verification_session.verified`) — Stripe shows the signing secret after you create it. |
 | `NEXT_PUBLIC_APP_URL` | Same as `NEXTAUTH_URL`. Used to build Stripe Connect onboarding return links. |
 | `CRON_SECRET` | Generated in chat, or `openssl rand -hex 32`. Also see `vercel.json` — Vercel sends this automatically as `Authorization: Bearer <value>` when it calls `/api/cron/release-escrow`. |
 | `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET_NAME` | Cloudflare dashboard → R2 Object Storage → create a private bucket → Manage R2 API Tokens → create a token scoped to Object Read & Write on that bucket. Required in production — see below. |
@@ -87,7 +87,23 @@ else gets a 404 (the route doesn't reveal it exists). Two tools:
   orders, refund requests) — use this to clear out smoke-test data created while verifying a
   deploy.
 
-## 5. Ticket file storage (Cloudflare R2)
+## 5. Identity verification (Stripe Identity)
+
+Users can verify their identity from `/dashboard` (government ID + selfie, hosted by Stripe) to
+earn a gold "Verified" badge shown to buyers on their listings. No separate signup needed — it
+uses the same Stripe account as payments/Connect, but **Stripe Identity must be turned on**:
+
+1. [Stripe dashboard → Identity](https://dashboard.stripe.com/identity) → click through the
+   product activation (accept terms; no extra business info needed beyond what you already gave
+   Stripe for payments).
+2. On the webhook endpoint from step 2 above, add the `identity.verification_session.verified`
+   event (Stripe dashboard → Developers → Webhooks → your endpoint → Add events).
+
+Without this enabled, `POST /api/identity/start` returns a Stripe error instead of a
+verification link — the button on the dashboard will show that error rather than failing
+silently.
+
+## 6. Ticket file storage (Cloudflare R2)
 
 `src/lib/storage.ts` uploads ticket files to Cloudflare R2 when the four `R2_*` variables
 above are set — required in production, since Vercel's serverless functions have no
@@ -97,7 +113,7 @@ ticket" would appear to work in production while quietly losing every uploaded f
 bucket should stay private (no public access) — files are served to the app via the R2
 API, never a public URL.
 
-## 6. After the first deploy
+## 7. After the first deploy
 
 - Visit the deployed URL and confirm the home page and `/events` load without a 500 (that
   confirms `DATABASE_URL` and the auto-run migration worked).
@@ -105,7 +121,7 @@ API, never a public URL.
 - Register a test seller + buyer account and run through Stripe Connect onboarding in test
   mode to confirm the escrow flow end-to-end before going live.
 
-## 7. Troubleshooting: "No git sources are allowed in production"
+## 8. Troubleshooting: "No git sources are allowed in production"
 
 If Production deployments get blocked with this exact message (visible on the deployment
 page in a red "Deployment Blocked" box), it's Vercel's **Deployment Policies** (Beta)

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
+import { IdentityVerification } from "@/components/IdentityVerification";
 import { OrderActions } from "@/components/OrderActions";
 import { auth } from "@/lib/auth";
 import { formatCents } from "@/lib/fees";
@@ -12,7 +13,8 @@ export default async function DashboardPage() {
   const session = await auth();
   if (!session?.user?.id) redirect("/login?callbackUrl=/dashboard");
 
-  const [purchases, listings, stripeConnect] = await Promise.all([
+  const [user, purchases, listings, stripeConnect] = await Promise.all([
+    prisma.user.findUnique({ where: { id: session.user.id }, select: { identityVerified: true } }),
     prisma.order.findMany({
       where: { buyerId: session.user.id },
       include: { listing: { include: { event: true } } },
@@ -29,6 +31,10 @@ export default async function DashboardPage() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
       <h1 className="text-2xl font-bold text-navy-900 dark:text-white">My account</h1>
+
+      <section className="mt-6">
+        <IdentityVerification verified={user?.identityVerified ?? false} />
+      </section>
 
       <section className="mt-10">
         <h2 className="text-lg font-bold text-navy-900 dark:text-white">My purchases</h2>
