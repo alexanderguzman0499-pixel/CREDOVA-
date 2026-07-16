@@ -25,14 +25,14 @@ export default async function EventDetailPage({
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-      <p className="text-xs font-semibold uppercase tracking-wide text-emerald-600">{event.category}</p>
-      <h1 className="mt-1 text-3xl font-bold text-slate-900 dark:text-white">{event.name}</h1>
+      <p className="text-xs font-semibold uppercase tracking-wide text-gold-700 dark:text-gold-400">{event.category}</p>
+      <h1 className="mt-1 text-3xl font-bold text-navy-900 dark:text-white">{event.name}</h1>
       <p className="mt-2 text-slate-500 dark:text-slate-400">
         {event.venue} · {event.city}, {event.country} ·{" "}
         {new Date(event.eventDate).toLocaleString("es-ES", { dateStyle: "full", timeStyle: "short" })}
       </p>
 
-      <h2 className="mt-10 text-xl font-bold text-slate-900 dark:text-white">
+      <h2 className="mt-10 text-xl font-bold text-navy-900 dark:text-white">
         Boletos disponibles ({event.listings.length})
       </h2>
 
@@ -55,7 +55,7 @@ export default async function EventDetailPage({
                 <p className="text-xs text-slate-500 dark:text-slate-400">Precio total, todo incluido</p>
                 <Link
                   href={`/listings/${listing.id}/checkout`}
-                  className="mt-2 inline-block rounded-full bg-emerald-600 px-4 py-1.5 text-sm font-semibold text-white hover:bg-emerald-500"
+                  className="mt-2 inline-block rounded-full bg-navy-900 px-4 py-1.5 text-sm font-semibold text-white hover:bg-navy-800"
                 >
                   Comprar
                 </Link>
@@ -66,7 +66,7 @@ export default async function EventDetailPage({
         {event.listings.length === 0 && (
           <p className="p-6 text-slate-500 dark:text-slate-400">
             Todavía no hay boletos publicados para este evento.{" "}
-            <Link href="/sell/new" className="font-medium text-emerald-700 hover:underline dark:text-emerald-400">
+            <Link href="/sell/new" className="font-medium text-gold-700 hover:underline dark:text-gold-400">
               Sé el primero en vender uno
             </Link>
             .

@@ -26,7 +26,7 @@ export default async function CheckoutPage({
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
-      <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Confirmar compra</h1>
+      <h1 className="text-2xl font-bold text-navy-900 dark:text-white">Confirmar compra</h1>
 
       <div className="mt-6 grid gap-8 sm:grid-cols-2">
         <div className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
@@ -45,9 +45,9 @@ export default async function CheckoutPage({
               <dt className="text-slate-500 dark:text-slate-400">Comisión de servicio (7%)</dt>
               <dd>{formatCents(pricing.buyerFeeCents, listing.currency)}</dd>
             </div>
-            <div className="flex justify-between border-t border-slate-200 pt-2 font-bold text-slate-900 dark:border-slate-800 dark:text-white">
+            <div className="flex justify-between border-t border-gold-300 pt-2 font-bold text-navy-900 dark:border-gold-800 dark:text-white">
               <dt>Total a pagar</dt>
-              <dd>{formatCents(pricing.totalChargedCents, listing.currency)}</dd>
+              <dd className="text-gold-700 dark:text-gold-400">{formatCents(pricing.totalChargedCents, listing.currency)}</dd>
             </div>
           </dl>
 

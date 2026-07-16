@@ -98,7 +98,7 @@ export default function NewListingPage() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6">
-      <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Vender un boleto</h1>
+      <h1 className="text-2xl font-bold text-navy-900 dark:text-white">Vender un boleto</h1>
       <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
         Publicar es gratis. Solo pagas el 7% cuando tu boleto se vende, y el dinero te llega automáticamente después
         del evento (o antes, si el comprador confirma que todo está bien).
@@ -250,7 +250,7 @@ export default function NewListingPage() {
         <button
           type="submit"
           disabled={submitting}
-          className="w-full rounded-full bg-emerald-600 px-5 py-3 font-semibold text-white hover:bg-emerald-500 disabled:opacity-60"
+          className="w-full rounded-full bg-navy-900 px-5 py-3 font-semibold text-white hover:bg-navy-800 disabled:opacity-60"
         >
           {submitting ? "Publicando…" : "Publicar boleto"}
         </button>

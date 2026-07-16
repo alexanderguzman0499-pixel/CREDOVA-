@@ -3,7 +3,7 @@ export const metadata = { title: "Garantía y reembolsos — Global Ticket Resal
 export default function RefundPolicyPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
-      <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Garantía de compra</h1>
+      <h1 className="text-2xl font-bold text-navy-900 dark:text-white">Garantía de compra</h1>
       <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
         Borrador de referencia para desarrollo; debe revisarse con asesoría legal antes de publicarse.
       </p>

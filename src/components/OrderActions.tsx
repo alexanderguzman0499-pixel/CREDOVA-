@@ -54,7 +54,7 @@ export function OrderActions({ orderId }: { orderId: string }) {
         <button
           onClick={confirm}
           disabled={busy}
-          className="rounded-full bg-emerald-600 px-4 py-1.5 text-xs font-semibold text-white hover:bg-emerald-500 disabled:opacity-60"
+          className="rounded-full bg-navy-900 px-4 py-1.5 text-xs font-semibold text-white hover:bg-navy-800 disabled:opacity-60"
         >
           Confirmar que todo está bien
         </button>

@@ -22,11 +22,11 @@ const steps = [
 export default function HowItWorksPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6">
-      <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Cómo funciona</h1>
+      <h1 className="text-2xl font-bold text-navy-900 dark:text-white">Cómo funciona</h1>
       <div className="mt-8 grid gap-6 sm:grid-cols-2">
         {steps.map((step) => (
           <div key={step.title} className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
-            <h2 className="font-semibold text-slate-900 dark:text-white">{step.title}</h2>
+            <h2 className="font-semibold text-navy-900 dark:text-white">{step.title}</h2>
             <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{step.body}</p>
           </div>
         ))}

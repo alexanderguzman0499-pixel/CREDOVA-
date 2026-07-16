@@ -22,15 +22,19 @@ const trustPoints = [
 export default function Home() {
   return (
     <div>
-      <section className="bg-gradient-to-b from-emerald-50 to-white dark:from-slate-900 dark:to-slate-950">
-        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-          <p className="mb-3 inline-block rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
+      <section className="relative overflow-hidden bg-navy-950">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -top-40 right-[-10%] h-[36rem] w-[36rem] rounded-full bg-gold-500/10 blur-3xl"
+        />
+        <div className="relative mx-auto max-w-6xl px-4 py-20 sm:px-6">
+          <p className="mb-3 inline-block rounded-full border border-gold-500/30 bg-gold-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-gold-300">
             La reventa de boletos más justa del mundo
           </p>
-          <h1 className="max-w-3xl text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-5xl">
+          <h1 className="max-w-3xl text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
             Compra y vende cualquier boleto, en cualquier parte del mundo, con la comisión más baja del mercado.
           </h1>
-          <p className="mt-4 max-w-2xl text-lg text-slate-600 dark:text-slate-300">
+          <p className="mt-4 max-w-2xl text-lg text-navy-200">
             Conciertos, deportes y teatro. 7% + 7% de comisión total, precio todo incluido desde el inicio, y garantía
             de reembolso si algo sale mal.
           </p>
@@ -40,18 +44,18 @@ export default function Home() {
               type="text"
               name="q"
               placeholder="Busca un artista, equipo o evento..."
-              className="w-full flex-1 rounded-full border border-slate-300 bg-white px-5 py-3 text-slate-900 shadow-sm focus:border-emerald-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white"
+              className="w-full flex-1 rounded-full border border-navy-700 bg-navy-900 px-5 py-3 text-white placeholder:text-navy-400 shadow-sm focus:border-gold-500 focus:outline-none"
             />
             <button
               type="submit"
-              className="rounded-full bg-emerald-600 px-6 py-3 font-semibold text-white shadow-sm hover:bg-emerald-500"
+              className="rounded-full bg-gold-500 px-6 py-3 font-semibold text-navy-950 shadow-sm hover:bg-gold-400"
             >
               Buscar boletos
             </button>
           </form>
 
           <div className="mt-6 flex flex-wrap gap-3 text-sm">
-            <Link href="/sell/new" className="font-medium text-emerald-700 hover:underline dark:text-emerald-400">
+            <Link href="/sell/new" className="font-medium text-gold-300 hover:underline">
               ¿Tienes un boleto que ya no puedes usar? Véndelo aquí →
             </Link>
           </div>
@@ -59,14 +63,14 @@ export default function Home() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-        <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Por qué confiar en Global Ticket Resale</h2>
+        <h2 className="text-2xl font-bold text-navy-900 dark:text-white">Por qué confiar en Global Ticket Resale</h2>
         <div className="mt-8 grid gap-6 sm:grid-cols-2">
           {trustPoints.map((point) => (
             <div
               key={point.title}
-              className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900"
+              className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:border-gold-300 hover:shadow-md dark:border-slate-800 dark:bg-slate-900 dark:hover:border-gold-700"
             >
-              <h3 className="font-semibold text-slate-900 dark:text-white">{point.title}</h3>
+              <h3 className="font-semibold text-navy-900 dark:text-white">{point.title}</h3>
               <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{point.body}</p>
             </div>
           ))}
@@ -83,9 +87,11 @@ export default function Home() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
-              <tr className="bg-emerald-50 font-semibold text-emerald-800 dark:bg-emerald-900/20 dark:text-emerald-300">
-                <td className="px-6 py-3">Global Ticket Resale</td>
-                <td className="px-6 py-3">14% (7% + 7%)</td>
+              <tr className="bg-navy-900 font-semibold text-white">
+                <td className="px-6 py-3">
+                  Global Ticket Resale <span className="text-gold-400">★</span>
+                </td>
+                <td className="px-6 py-3 text-gold-300">14% (7% + 7%)</td>
               </tr>
               <tr>
                 <td className="px-6 py-3">Otras plataformas de reventa generalistas</td>

@@ -3,7 +3,7 @@ export const metadata = { title: "Privacidad — Global Ticket Resale" };
 export default function PrivacyPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
-      <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Política de privacidad</h1>
+      <h1 className="text-2xl font-bold text-navy-900 dark:text-white">Política de privacidad</h1>
       <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
         Borrador de referencia para desarrollo. Debe revisarse con asesoría legal (incluyendo cumplimiento de GDPR,
         CCPA u otras leyes aplicables según los países donde operes) antes de publicarse.

@@ -35,7 +35,7 @@ export default function SellerOnboardingPage() {
 
   return (
     <div className="mx-auto max-w-lg px-4 py-16 sm:px-6">
-      <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Configura tus pagos como vendedor</h1>
+      <h1 className="text-2xl font-bold text-navy-900 dark:text-white">Configura tus pagos como vendedor</h1>
       <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
         Usamos Stripe Connect para pagarte de forma segura. Tus datos bancarios nunca pasan por nuestros servidores.
       </p>
@@ -51,7 +51,7 @@ export default function SellerOnboardingPage() {
       <button
         onClick={startOnboarding}
         disabled={loading}
-        className="mt-6 w-full rounded-full bg-emerald-600 px-5 py-3 font-semibold text-white hover:bg-emerald-500 disabled:opacity-60"
+        className="mt-6 w-full rounded-full bg-navy-900 px-5 py-3 font-semibold text-white hover:bg-navy-800 disabled:opacity-60"
       >
         {loading ? "Redirigiendo…" : status?.payoutsEnabled ? "Actualizar información de pago" : "Configurar pagos con Stripe"}
       </button>
@@ -63,7 +63,7 @@ function StatusRow({ label, ok }: { label: string; ok: boolean }) {
   return (
     <div className="flex items-center justify-between">
       <span className="text-slate-600 dark:text-slate-300">{label}</span>
-      <span className={ok ? "font-semibold text-emerald-600" : "font-semibold text-slate-400"}>
+      <span className={ok ? "font-semibold text-gold-600 dark:text-gold-400" : "font-semibold text-slate-400"}>
         {ok ? "Listo" : "Pendiente"}
       </span>
     </div>

@@ -3,7 +3,7 @@ export const metadata = { title: "Términos de servicio — Global Ticket Resale
 export default function TermsPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
-      <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Términos de servicio</h1>
+      <h1 className="text-2xl font-bold text-navy-900 dark:text-white">Términos de servicio</h1>
       <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
         Este texto es un borrador de referencia generado para el desarrollo del producto y debe ser revisado por un
         abogado antes de publicarse o de operar comercialmente.

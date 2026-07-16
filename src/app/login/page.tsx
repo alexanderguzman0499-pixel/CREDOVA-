@@ -36,7 +36,7 @@ function LoginForm() {
 
   return (
     <div className="mx-auto max-w-md px-4 py-16 sm:px-6">
-      <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Entrar</h1>
+      <h1 className="text-2xl font-bold text-navy-900 dark:text-white">Entrar</h1>
       <form onSubmit={handleSubmit} className="mt-6 space-y-4">
         <div>
           <label htmlFor="email" className="text-sm font-medium text-slate-700 dark:text-slate-300">
@@ -70,7 +70,7 @@ function LoginForm() {
         <button
           type="submit"
           disabled={submitting}
-          className="w-full rounded-full bg-emerald-600 px-5 py-2.5 font-semibold text-white hover:bg-emerald-500 disabled:opacity-60"
+          className="w-full rounded-full bg-navy-900 px-5 py-2.5 font-semibold text-white hover:bg-navy-800 disabled:opacity-60"
         >
           {submitting ? "Entrando…" : "Entrar"}
         </button>

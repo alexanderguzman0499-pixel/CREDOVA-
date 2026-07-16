@@ -88,7 +88,7 @@ function PaymentForm({ orderId, onSuccess }: { orderId: string; onSuccess: () =>
       <button
         type="submit"
         disabled={!stripe || submitting}
-        className="w-full rounded-full bg-emerald-600 px-5 py-3 font-semibold text-white hover:bg-emerald-500 disabled:opacity-60"
+        className="w-full rounded-full bg-navy-900 px-5 py-3 font-semibold text-white hover:bg-navy-800 disabled:opacity-60"
       >
         {submitting ? "Procesando…" : "Pagar de forma segura"}
       </button>

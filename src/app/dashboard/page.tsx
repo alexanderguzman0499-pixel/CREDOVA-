@@ -28,10 +28,10 @@ export default async function DashboardPage() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
-      <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Mi panel</h1>
+      <h1 className="text-2xl font-bold text-navy-900 dark:text-white">Mi panel</h1>
 
       <section className="mt-10">
-        <h2 className="text-lg font-bold text-slate-900 dark:text-white">Mis compras</h2>
+        <h2 className="text-lg font-bold text-navy-900 dark:text-white">Mis compras</h2>
         <div className="mt-4 space-y-3">
           {purchases.map((order) => (
             <div
@@ -50,7 +50,7 @@ export default async function DashboardPage() {
                   <p className="font-bold text-slate-900 dark:text-white">
                     {formatCents(order.totalChargedCents, order.currency)}
                   </p>
-                  <p className="text-xs uppercase tracking-wide text-emerald-600">{order.status}</p>
+                  <p className="text-xs uppercase tracking-wide text-navy-700 dark:text-navy-300">{order.status}</p>
                 </div>
               </div>
               {BUYER_ACTIONABLE_STATUSES.has(order.status) && <OrderActions orderId={order.id} />}
@@ -59,7 +59,7 @@ export default async function DashboardPage() {
           {purchases.length === 0 && (
             <p className="text-sm text-slate-500 dark:text-slate-400">
               Aún no has comprado boletos.{" "}
-              <Link href="/events" className="font-medium text-emerald-700 hover:underline dark:text-emerald-400">
+              <Link href="/events" className="font-medium text-gold-700 hover:underline dark:text-gold-400">
                 Explora eventos
               </Link>
               .
@@ -70,8 +70,8 @@ export default async function DashboardPage() {
 
       <section className="mt-12">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold text-slate-900 dark:text-white">Mis boletos en venta</h2>
-          <Link href="/sell/new" className="text-sm font-medium text-emerald-700 hover:underline dark:text-emerald-400">
+          <h2 className="text-lg font-bold text-navy-900 dark:text-white">Mis boletos en venta</h2>
+          <Link href="/sell/new" className="text-sm font-medium text-gold-700 hover:underline dark:text-gold-400">
             + Nuevo boleto
           </Link>
         </div>
